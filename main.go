@@ -18,7 +18,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
@@ -29,16 +28,6 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
-
-var MPosDB *sql.DB
-var MPosGORM *gorm.DB
-
-func InitGormPostgres() {
-	MPosGORM, err = gorm.Open("postgres", "user=postgres dbname=studentlist password=sherzod sslmode=disable")
-	if err != nil {
-		log.Fatal(err)
-	}
-}
 
 // var (
 // 	student  = &models.Student{Name: "Sherzod", Surname: "Abdullajonov", Id: 1, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666989}
@@ -68,9 +57,6 @@ func main() {
 		fmt.Println("Successfully connected to database")
 	}
 	defer db.Close()
-
-	InitGormPostgres()
-	defer MPosGORM.Close()
 
 	// Set the router as the default one shipped with Gin
 	gin.SetMode(gin.ReleaseMode)
