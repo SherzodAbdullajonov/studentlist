@@ -1,4 +1,4 @@
-# Studen list CRUD system
+# Student list CRUD system
 This is the repository for my the CRUD system for learning purpose which is called Student List. 
 
 - Built in Go version 1.17
