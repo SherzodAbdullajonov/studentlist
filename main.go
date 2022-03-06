@@ -14,21 +14,21 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title Gin Swagger Example API
-// @version 1.0
-// @description This is a sample server server.
-// @termsOfService http://swagger.io/terms/
+// @title           Gin Swagger Example API
+// @version         1.0
+// @description     This is a sample server server.
+// @termsOfService  http://swagger.io/terms/
 
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
 
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:4000
-// @BasePath /
-// @schemes []string{"http"}
+// @host      localhost:4000
+// @BasePath  /
+// @schemes   []string{"http"}
 
 // var (
 // 	student  = &models.Student{Name: "Sherzod", Surname: "Abdullajonov", Id: 1, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666989}
@@ -74,7 +74,6 @@ func main() {
 	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	router.GET("/", GetStudents)
-	router.GET("/student", GetStudent)
 	router.GET("/student/:id", GetStudentById)
 	router.POST("/student", CreateStudent)
 	router.PUT("/student/:id", UpdateStudent)
@@ -85,13 +84,14 @@ func main() {
 }
 
 // GetStudents godoc
-// @Summary Show the status of server.
-// @Description get the status of server.
-// @Tags root
-// @Accept */*
-// @Produce json
-// @Success 200 {object} map[string]interface{}
-// @Router / [get]
+// @Summary      Show student list.
+// @Description  get all students from the database.
+// @Tags         Students
+// @Accept       json
+// @Produce      json
+// @Success      200  {struct}  models.Student
+// @Failure      404  {object}  httputil.HTTPError
+// @Router       / [get]
 func GetStudents(c *gin.Context) {
 	var student []models.Student
 	if err := db.Find(&student).Error; err != nil {
@@ -101,6 +101,16 @@ func GetStudents(c *gin.Context) {
 		c.JSON(200, student)
 	}
 }
+
+// GetStudentById godoc
+// @Summary      Show a  student from the list.
+// @Description  get one student by id from the database.
+// @Tags         Students
+// @Accept       json
+// @Produce      json
+// @Success      200  {struct}  models.Student
+// @Failure      404  {object}  httputil.HTTPError
+// @Router       /student/:id [get]
 func GetStudentById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var student models.Student
@@ -111,21 +121,32 @@ func GetStudentById(c *gin.Context) {
 		c.JSON(200, student)
 	}
 }
-func GetStudent(c *gin.Context) {
-	var student []models.Student
-	if err := db.Find(&student).Error; err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
-	} else {
-		c.JSON(200, student)
-	}
-}
+
+// CreateStudent godoc
+// @Summary      Create a new student.
+// @Description  create a student and add to the database.
+// @Tags         Students
+// @Accept       json
+// @Produce      json
+// @Success      200  {struct}  models.Student
+// @Failure      404  {object}  httputil.HTTPError
+// @Router       /student [post]
 func CreateStudent(c *gin.Context) {
 	var student models.Student
 	c.BindJSON(&student)
 	db.Create(&student)
 	c.JSON(200, student)
 }
+
+// UpdtadeStudent godoc
+// @Summary      Update a student.
+// @Description  update an existing student by ID.
+// @Tags         Students
+// @Accept       json
+// @Produce      json
+// @Success      200  {struct}  models.Student
+// @Failure      404  {object}  httputil.HTTPError
+// @Router       /student/:id [put]
 func UpdateStudent(c *gin.Context) {
 	var student models.Student
 	id := c.Params.ByName("id")
@@ -138,6 +159,15 @@ func UpdateStudent(c *gin.Context) {
 	c.JSON(200, student)
 }
 
+// DeleteStudent godoc
+// @Summary      Delete a student.
+// @Description  delete an existing student by ID.
+// @Tags         Students
+// @Accept       json
+// @Produce      json
+// @Success      200  {struct}  models.Student
+// @Failure      404  {object}  httputil.HTTPError
+// @Router       /student/:id [delete]
 func DeleteStudent(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var student models.Student
