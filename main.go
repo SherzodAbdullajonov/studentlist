@@ -1,20 +1,3 @@
-//Package classificaton of Studen API
-//
-//Documentation for Student API
-//
-//
-//Schemes:http
-// BasePath:/
-//Version: 1.0.0
-//
-//Consume:
-//-aplication/json
-//
-//
-// Students:
-// - aplication/json
-//
-//swagger: meta
 package main
 
 import (
@@ -24,10 +7,28 @@ import (
 	"studentList/models"
 
 	"github.com/gin-gonic/gin"
-
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+// @title Gin Swagger Example API
+// @version 1.0
+// @description This is a sample server server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:4000
+// @BasePath /
+// @schemes []string{"http"}
 
 // var (
 // 	student  = &models.Student{Name: "Sherzod", Surname: "Abdullajonov", Id: 1, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666989}
@@ -69,6 +70,9 @@ func main() {
 	// db.Create(&student4)
 	// db.Create(&student5)
 	// db.Create(&student6)
+	r := gin.New()
+	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	router.GET("/", GetStudents)
 	router.GET("/student", GetStudent)
 	router.GET("/student/:id", GetStudentById)
@@ -79,6 +83,15 @@ func main() {
 	log.Fatal(router.Run(":4000"))
 
 }
+
+// GetStudents godoc
+// @Summary Show the status of server.
+// @Description get the status of server.
+// @Tags root
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router / [get]
 func GetStudents(c *gin.Context) {
 	var student []models.Student
 	if err := db.Find(&student).Error; err != nil {
