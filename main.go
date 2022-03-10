@@ -10,8 +10,8 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	// _"studentList/doc/studentlist"
-	_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple"
+	_ "studentList/doc/studentlist"
+
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -67,7 +67,7 @@ func main() {
 	// router.PUT("/student/:id", UpdateStudent)
 	// router.DELETE("/student/:id", DeleteStudent)
 
-	r := gin.New()
+	r := gin.Default()
 	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	r.GET("/", GetStudents)
