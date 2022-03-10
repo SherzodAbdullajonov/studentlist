@@ -1,4 +1,28 @@
 basePath: /
+definitions:
+  models.Student:
+    properties:
+      adress:
+        type: string
+      course:
+        type: integer
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      department:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: integer
+      surname:
+        type: string
+      updatedAt:
+        type: string
+    type: object
 host: localhost:4000
 info:
   contact:
@@ -16,19 +40,96 @@ paths:
   /:
     get:
       consumes:
-      - '*/*'
-      description: get the status of server.
+      - application/json
+      description: get all students from the database.
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
-      summary: Show the status of server.
+            type: struct
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Student'
+      summary: Show student list.
       tags:
-      - root
+      - Students
+  /student:
+    post:
+      consumes:
+      - application/json
+      description: create a student and add to the database.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: struct
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Student'
+      summary: Create a new student.
+      tags:
+      - Students
+  /student/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete an existing student by ID.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: struct
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Student'
+      summary: Delete a student.
+      tags:
+      - Students
+    get:
+      consumes:
+      - application/json
+      description: get one student by id from the database.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: struct
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Student'
+      summary: Show a  student from the list.
+      tags:
+      - Students
+    put:
+      consumes:
+      - application/json
+      description: update an existing student by ID.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: struct
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Student'
+      summary: Update a student.
+      tags:
+      - Students
 schemes:
-- http
+- '[]string{"http"}'
 swagger: "2.0"

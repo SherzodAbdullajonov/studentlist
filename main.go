@@ -9,38 +9,28 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+
+	// _"studentList/doc/studentlist"
 	_ "github.com/rizalgowandy/go-swag-sample/docs/ginsimple"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+var db *gorm.DB
+var err error
+
 // @title           Gin Swagger Example API
 // @version         1.0
 // @description     This is a sample server server.
 // @termsOfService  http://swagger.io/terms/
-
 // @contact.name   API Support
 // @contact.url    http://www.swagger.io/support
 // @contact.email  support@swagger.io
-
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
-
 // @host      localhost:4000
 // @BasePath  /
 // @schemes   []string{"http"}
-
-// var (
-// 	student  = &models.Student{Name: "Sherzod", Surname: "Abdullajonov", Id: 1, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666989}
-// 	student2 = &models.Student{Name: "Khurshid", Surname: "Kabilov", Id: 2, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 911146761}
-// 	student3 = &models.Student{Name: "Shokhruhk", Surname: "Gafurov", Id: 3, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 916771185}
-// 	student4 = &models.Student{Name: "Jahongir", Surname: "Makhkamov", Id: 4, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 906330463}
-// 	student5 = &models.Student{Name: "Shahzod", Surname: "Burkhanov", Id: 5, Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 995558076}
-// 	student6 = &models.Student{Name: "Jaloliddin", Surname: "Abdullayev", Id: 6, Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 994522399}
-// )
-var db *gorm.DB
-var err error
-
 func main() {
 	dialect := os.Getenv("DIALECT")
 	host := os.Getenv("HOST")
@@ -61,7 +51,7 @@ func main() {
 
 	// Set the router as the default one shipped with Gin
 	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
+	//router := gin.Default()
 	//api := router.Group("/api")
 	// db.AutoMigrate(&models.Student{})
 	// db.Create(&student)
@@ -70,16 +60,24 @@ func main() {
 	// db.Create(&student4)
 	// db.Create(&student5)
 	// db.Create(&student6)
+
+	// router.GET("/", GetStudents)
+	// router.GET("/student/:id", GetStudentById)
+	// router.POST("/student", CreateStudent)
+	// router.PUT("/student/:id", UpdateStudent)
+	// router.DELETE("/student/:id", DeleteStudent)
+
 	r := gin.New()
 	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	router.GET("/", GetStudents)
-	router.GET("/student/:id", GetStudentById)
-	router.POST("/student", CreateStudent)
-	router.PUT("/student/:id", UpdateStudent)
-	router.DELETE("/student/:id", DeleteStudent)
+	r.GET("/", GetStudents)
+	r.GET("/student/:id", GetStudentById)
+	r.POST("/student", CreateStudent)
+	r.PUT("/student/:id", UpdateStudent)
+	r.DELETE("/student/:id", DeleteStudent)
 
-	log.Fatal(router.Run(":4000"))
+	log.Fatal(r.Run(":4000"))
+	//log.Fatal(router.Run(":4000"))
 
 }
 
@@ -87,10 +85,10 @@ func main() {
 // @Summary      Show student list.
 // @Description  get all students from the database.
 // @Tags         Students
-// @Accept       json
-// @Produce      json
+// @Accept       application/json
+// @Produce      application/json
 // @Success      200  {struct}  models.Student
-// @Failure      404  {object}  httputil.HTTPError
+// @Failure      404  {object}  models.Student
 // @Router       / [get]
 func GetStudents(c *gin.Context) {
 	var student []models.Student
@@ -106,10 +104,10 @@ func GetStudents(c *gin.Context) {
 // @Summary      Show a  student from the list.
 // @Description  get one student by id from the database.
 // @Tags         Students
-// @Accept       json
-// @Produce      json
+// @Accept       application/json
+// @Produce      application/json
 // @Success      200  {struct}  models.Student
-// @Failure      404  {object}  httputil.HTTPError
+// @Failure      404  {object}  models.Student
 // @Router       /student/:id [get]
 func GetStudentById(c *gin.Context) {
 	id := c.Params.ByName("id")
@@ -126,10 +124,10 @@ func GetStudentById(c *gin.Context) {
 // @Summary      Create a new student.
 // @Description  create a student and add to the database.
 // @Tags         Students
-// @Accept       json
-// @Produce      json
+// @Accept       application/json
+// @Produce      application/json
 // @Success      200  {struct}  models.Student
-// @Failure      404  {object}  httputil.HTTPError
+// @Failure      404  {object}  models.Student
 // @Router       /student [post]
 func CreateStudent(c *gin.Context) {
 	var student models.Student
@@ -142,10 +140,10 @@ func CreateStudent(c *gin.Context) {
 // @Summary      Update a student.
 // @Description  update an existing student by ID.
 // @Tags         Students
-// @Accept       json
-// @Produce      json
+// @Accept       application/json
+// @Produce      application/json
 // @Success      200  {struct}  models.Student
-// @Failure      404  {object}  httputil.HTTPError
+// @Failure      404  {object}  models.Student
 // @Router       /student/:id [put]
 func UpdateStudent(c *gin.Context) {
 	var student models.Student
@@ -163,10 +161,10 @@ func UpdateStudent(c *gin.Context) {
 // @Summary      Delete a student.
 // @Description  delete an existing student by ID.
 // @Tags         Students
-// @Accept       json
-// @Produce      json
+// @Accept       application/json
+// @Produce      application/json
 // @Success      200  {struct}  models.Student
-// @Failure      404  {object}  httputil.HTTPError
+// @Failure      404  {object}  models.Student
 // @Router       /student/:id [delete]
 func DeleteStudent(c *gin.Context) {
 	id := c.Params.ByName("id")
@@ -175,3 +173,12 @@ func DeleteStudent(c *gin.Context) {
 	fmt.Println(d)
 	c.JSON(200, gin.H{"id #" + id: "deleted"})
 }
+
+// var (
+// 	student  = &models.Student{Name: "Sherzod", Surname: "Abdullajonov", Id: 1, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666989}
+// 	studen4000/swagger/doc.jsont2 = &models.Student{Name: "Khurshid", Surname: "Kabilov", Id: 2, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 911146761}
+// 	student3 = &models.Student{Name: "Shokhruhk", Surname: "Gafurov", Id: 3, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 916771185}
+// 	student4 = &models.Student{Name: "Jahongir", Surname: "Makhkamov", Id: 4, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 906330463}
+// 	student5 = &models.Student{Name: "Shahzod", Surname: "Burkhanov", Id: 5, Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 995558076}
+// 	student6 = &models.Student{Name: "Jaloliddin", Surname: "Abdullayev", Id: 6, Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 994522399}
+// )
