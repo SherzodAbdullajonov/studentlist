@@ -1,22 +1,18 @@
 {
-    "schemes": [
-        "[]string{\"http\"}"
-    ],
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server server.",
-        "title": "Gin Swagger Example API",
-        "termsOfService": "http://swagger.io/terms/",
+        "description": "Description of specifications",
+        "title": "API document title",
         "contact": {
-            "name": "API Support",
+            "name": "API supporter",
             "url": "http://www.swagger.io/support",
             "email": "support@swagger.io"
         },
         "license": {
-            "name": "Apache 2.0",
+            "name": "license(Mandatory)",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "1.0"
+        "version": "version(1.0)"
     },
     "host": "localhost:4000",
     "basePath": "/",
@@ -66,7 +62,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "struct"
+                            "$ref": "#/definitions/models.Student"
                         }
                     },
                     "404": {
@@ -105,7 +101,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Student"
+                            "type": "struct"
                         }
                     },
                     "404": {

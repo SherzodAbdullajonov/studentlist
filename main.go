@@ -6,11 +6,11 @@ import (
 	"os"
 	"studentList/models"
 
+	_ "studentList/doc/studentlist"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-
-	_ "studentList/doc/studentlist"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -19,18 +19,20 @@ import (
 var db *gorm.DB
 var err error
 
-// @title           Gin Swagger Example API
-// @version         1.0
-// @description     This is a sample server server.
-// @termsOfService  http://swagger.io/terms/
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
-// @host      localhost:4000
-// @BasePath  /
-// @schemes   []string{"http"}
+// @title API document title
+// @version version(1.0)
+// @description Description of specifications
+// @Precautions when using termsOfService specifications
+
+// @contact.name API supporter
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name license(Mandatory)
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:4000
+// @BasePath /
 func main() {
 	dialect := os.Getenv("DIALECT")
 	host := os.Getenv("HOST")
@@ -102,7 +104,7 @@ func GetStudents(c *gin.Context) {
 // @Tags         Students
 // @Accept       json
 // @Produce      json
-// @Param  	     id path string true "Student ID"
+// @Param  	     id path int true "Student ID"
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student/:id [get]
@@ -123,8 +125,8 @@ func GetStudentById(c *gin.Context) {
 // @Tags         Students
 // @Accept       json
 // @Produce      json
-// @Param 		 models.Student
-// @Success      200  {object}  models.Student
+// @Param        models.Student
+// @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student [post]
 func CreateStudent(c *gin.Context) {

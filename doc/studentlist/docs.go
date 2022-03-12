@@ -10,14 +10,13 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
         "contact": {
-            "name": "API Support",
+            "name": "API supporter",
             "url": "http://www.swagger.io/support",
             "email": "support@swagger.io"
         },
         "license": {
-            "name": "Apache 2.0",
+            "name": "license(Mandatory)",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "{{.Version}}"
@@ -70,7 +69,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "struct"
+                            "$ref": "#/definitions/models.Student"
                         }
                     },
                     "404": {
@@ -109,7 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Student"
+                            "type": "struct"
                         }
                     },
                     "404": {
@@ -217,12 +216,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "version(1.0)",
 	Host:             "localhost:4000",
 	BasePath:         "/",
-	Schemes:          []string{"[]string{\"http\"}"},
-	Title:            "Gin Swagger Example API",
-	Description:      "This is a sample server server.",
+	Schemes:          []string{},
+	Title:            "API document title",
+	Description:      "Description of specifications",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

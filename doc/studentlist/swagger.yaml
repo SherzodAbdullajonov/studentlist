@@ -27,15 +27,14 @@ host: localhost:4000
 info:
   contact:
     email: support@swagger.io
-    name: API Support
+    name: API supporter
     url: http://www.swagger.io/support
-  description: This is a sample server server.
+  description: Description of specifications
   license:
-    name: Apache 2.0
+    name: license(Mandatory)
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Gin Swagger Example API
-  version: "1.0"
+  title: API document title
+  version: version(1.0)
 paths:
   /student:
     get:
@@ -67,7 +66,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: struct
+            $ref: '#/definitions/models.Student'
         "404":
           description: Not Found
           schema:
@@ -111,7 +110,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Student'
+            type: struct
         "404":
           description: Not Found
           schema:
@@ -137,6 +136,4 @@ paths:
       summary: Update a student.
       tags:
       - Students
-schemes:
-- '[]string{"http"}'
 swagger: "2.0"
