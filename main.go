@@ -61,16 +61,10 @@ func main() {
 	// db.Create(&student5)
 	// db.Create(&student6)
 
-	// router.GET("/", GetStudents)
-	// router.GET("/student/:id", GetStudentById)
-	// router.POST("/student", CreateStudent)
-	// router.PUT("/student/:id", UpdateStudent)
-	// router.DELETE("/student/:id", DeleteStudent)
-
 	r := gin.Default()
 	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	r.GET("/", GetStudents)
+	r.GET("/student", GetStudents)
 	r.GET("/student/:id", GetStudentById)
 	r.POST("/student", CreateStudent)
 	r.PUT("/student/:id", UpdateStudent)
@@ -83,13 +77,14 @@ func main() {
 
 // GetStudents godoc
 // @Summary      Show student list.
+// @ID get-all-Students
 // @Description  get all students from the database.
 // @Tags         Students
-// @Accept       application/json
-// @Produce      application/json
+// @Accept       json
+// @Produce      json
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
-// @Router       / [get]
+// @Router       /student [get]
 func GetStudents(c *gin.Context) {
 	var student []models.Student
 	if err := db.Find(&student).Error; err != nil {
@@ -102,10 +97,12 @@ func GetStudents(c *gin.Context) {
 
 // GetStudentById godoc
 // @Summary      Show a  student from the list.
+// @ID get-Student-by-id
 // @Description  get one student by id from the database.
 // @Tags         Students
-// @Accept       application/json
-// @Produce      application/json
+// @Accept       json
+// @Produce      json
+// @Param  	     id path string true "Student ID"
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student/:id [get]
@@ -124,9 +121,10 @@ func GetStudentById(c *gin.Context) {
 // @Summary      Create a new student.
 // @Description  create a student and add to the database.
 // @Tags         Students
-// @Accept       application/json
-// @Produce      application/json
-// @Success      200  {struct}  models.Student
+// @Accept       json
+// @Produce      json
+// @Param 		 models.Student
+// @Success      200  {object}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student [post]
 func CreateStudent(c *gin.Context) {
@@ -140,8 +138,8 @@ func CreateStudent(c *gin.Context) {
 // @Summary      Update a student.
 // @Description  update an existing student by ID.
 // @Tags         Students
-// @Accept       application/json
-// @Produce      application/json
+// @Accept       json
+// @Produce      json
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student/:id [put]
@@ -161,8 +159,8 @@ func UpdateStudent(c *gin.Context) {
 // @Summary      Delete a student.
 // @Description  delete an existing student by ID.
 // @Tags         Students
-// @Accept       application/json
-// @Produce      application/json
+// @Accept       json
+// @Produce      json
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student/:id [delete]

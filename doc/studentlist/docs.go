@@ -25,7 +25,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/": {
+        "/student": {
             "get": {
                 "description": "get all students from the database.",
                 "consumes": [
@@ -38,6 +38,7 @@ const docTemplate = `{
                     "Students"
                 ],
                 "summary": "Show student list.",
+                "operationId": "get-all-Students",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -52,9 +53,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/student": {
+            },
             "post": {
                 "description": "create a student and add to the database.",
                 "consumes": [
@@ -96,11 +95,21 @@ const docTemplate = `{
                     "Students"
                 ],
                 "summary": "Show a  student from the list.",
+                "operationId": "get-Student-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Student ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "struct"
+                            "$ref": "#/definitions/models.Student"
                         }
                     },
                     "404": {

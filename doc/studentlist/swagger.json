@@ -21,7 +21,7 @@
     "host": "localhost:4000",
     "basePath": "/",
     "paths": {
-        "/": {
+        "/student": {
             "get": {
                 "description": "get all students from the database.",
                 "consumes": [
@@ -34,6 +34,7 @@
                     "Students"
                 ],
                 "summary": "Show student list.",
+                "operationId": "get-all-Students",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -48,9 +49,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/student": {
+            },
             "post": {
                 "description": "create a student and add to the database.",
                 "consumes": [
@@ -92,11 +91,21 @@
                     "Students"
                 ],
                 "summary": "Show a  student from the list.",
+                "operationId": "get-Student-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Student ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "struct"
+                            "$ref": "#/definitions/models.Student"
                         }
                     },
                     "404": {
