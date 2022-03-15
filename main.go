@@ -53,15 +53,7 @@ func main() {
 
 	// Set the router as the default one shipped with Gin
 	gin.SetMode(gin.ReleaseMode)
-	//router := gin.Default()
-	//api := router.Group("/api")
 	// db.AutoMigrate(&models.Student{})
-	// db.Create(&student)
-	// db.Create(&student2)
-	// db.Create(&student3)
-	// db.Create(&student4)
-	// db.Create(&student5)
-	// db.Create(&student6)
 
 	r := gin.Default()
 	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
@@ -104,12 +96,13 @@ func GetStudents(c *gin.Context) {
 // @Tags         Students
 // @Accept       json
 // @Produce      json
-// @Param  	     id path int true "Student ID"
-// @Success      200  {struct}  models.Student
+// @Param  	     id path int true "id"
+// @Success      200  {object}  models.Student
 // @Failure      404  {object}  models.Student
-// @Router       /student/:id [get]
+// @Router       /student/{id} [get]
 func GetStudentById(c *gin.Context) {
 	id := c.Params.ByName("id")
+	log.Println("ID ", id)
 	var student models.Student
 	if err := db.Where("id = ?", id).First(&student).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -125,7 +118,7 @@ func GetStudentById(c *gin.Context) {
 // @Tags         Students
 // @Accept       json
 // @Produce      json
-// @Param        models.Student
+// @Param        student body models.Student true "CreateStudent"
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
 // @Router       /student [post]
@@ -142,9 +135,10 @@ func CreateStudent(c *gin.Context) {
 // @Tags         Students
 // @Accept       json
 // @Produce      json
+// @Param        student body models.Student true "UpdateStudent"
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
-// @Router       /student/:id [put]
+// @Router       /student/{id} [put]
 func UpdateStudent(c *gin.Context) {
 	var student models.Student
 	id := c.Params.ByName("id")
@@ -163,9 +157,10 @@ func UpdateStudent(c *gin.Context) {
 // @Tags         Students
 // @Accept       json
 // @Produce      json
+// @Param  	     id path int true "id"
 // @Success      200  {struct}  models.Student
 // @Failure      404  {object}  models.Student
-// @Router       /student/:id [delete]
+// @Router       /student/{id} [delete]
 func DeleteStudent(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var student models.Student
@@ -173,12 +168,3 @@ func DeleteStudent(c *gin.Context) {
 	fmt.Println(d)
 	c.JSON(200, gin.H{"id #" + id: "deleted"})
 }
-
-// var (
-// 	student  = &models.Student{Name: "Sherzod", Surname: "Abdullajonov", Id: 1, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666989}
-// 	studen4000/swagger/doc.jsont2 = &models.Student{Name: "Khurshid", Surname: "Kabilov", Id: 2, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 911146761}
-// 	student3 = &models.Student{Name: "Shokhruhk", Surname: "Gafurov", Id: 3, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 916771185}
-// 	student4 = &models.Student{Name: "Jahongir", Surname: "Makhkamov", Id: 4, Course: 4, Department: "Socie", Adress: "Fergana", Phone: 906330463}
-// 	student5 = &models.Student{Name: "Shahzod", Surname: "Burkhanov", Id: 5, Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 995558076}
-// 	student6 = &models.Student{Name: "Jaloliddin", Surname: "Abdullayev", Id: 6, Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 994522399}
-// )

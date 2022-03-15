@@ -65,11 +65,22 @@ const docTemplate = `{
                     "Students"
                 ],
                 "summary": "Create a new student.",
+                "parameters": [
+                    {
+                        "description": "CreateStudent",
+                        "name": "student",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Student"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Student"
+                            "type": "struct"
                         }
                     },
                     "404": {
@@ -81,7 +92,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/student/:id": {
+        "/student/{id}": {
             "get": {
                 "description": "get one student by id from the database.",
                 "consumes": [
@@ -97,8 +108,8 @@ const docTemplate = `{
                 "operationId": "get-Student-by-id",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Student ID",
+                        "type": "integer",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -108,7 +119,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "struct"
+                            "$ref": "#/definitions/models.Student"
                         }
                     },
                     "404": {
@@ -131,6 +142,17 @@ const docTemplate = `{
                     "Students"
                 ],
                 "summary": "Update a student.",
+                "parameters": [
+                    {
+                        "description": "UpdateStudent",
+                        "name": "student",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Student"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -158,6 +180,15 @@ const docTemplate = `{
                     "Students"
                 ],
                 "summary": "Delete a student.",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

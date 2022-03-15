@@ -5,7 +5,7 @@ import (
 	"studentList/models"
 	"time"
 
-	"github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis"
 )
 
 type redisCache struct {

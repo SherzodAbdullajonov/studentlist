@@ -1,0 +1,2 @@
+swag-gen:
+		swag init --parseDependency --parseInternal -g main.go --output doc/studentlist

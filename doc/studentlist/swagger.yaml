@@ -60,13 +60,20 @@ paths:
       consumes:
       - application/json
       description: create a student and add to the database.
+      parameters:
+      - description: CreateStudent
+        in: body
+        name: student
+        required: true
+        schema:
+          $ref: '#/definitions/models.Student'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Student'
+            type: struct
         "404":
           description: Not Found
           schema:
@@ -74,11 +81,17 @@ paths:
       summary: Create a new student.
       tags:
       - Students
-  /student/:id:
+  /student/{id}:
     delete:
       consumes:
       - application/json
       description: delete an existing student by ID.
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -99,18 +112,18 @@ paths:
       description: get one student by id from the database.
       operationId: get-Student-by-id
       parameters:
-      - description: Student ID
+      - description: id
         in: path
         name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: struct
+            $ref: '#/definitions/models.Student'
         "404":
           description: Not Found
           schema:
@@ -122,6 +135,13 @@ paths:
       consumes:
       - application/json
       description: update an existing student by ID.
+      parameters:
+      - description: UpdateStudent
+        in: body
+        name: student
+        required: true
+        schema:
+          $ref: '#/definitions/models.Student'
       produces:
       - application/json
       responses:
