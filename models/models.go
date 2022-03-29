@@ -7,9 +7,9 @@ type Student struct {
 
 	Name       string `json:"name"`
 	Surname    string `json:"surname"`
-	Id         int    `json:"id"`
 	Course     int    `json:"course"`
 	Department string `json:"department"`
 	Phone      int    `json:"phone"`
 	Adress     string `json:"adress"`
+	Email      string `json:"email"`
 }

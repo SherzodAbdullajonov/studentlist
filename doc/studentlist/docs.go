@@ -225,6 +225,9 @@ const docTemplate = `{
                 "department": {
                     "type": "string"
                 },
+                "email": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
