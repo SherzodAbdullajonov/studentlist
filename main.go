@@ -40,9 +40,8 @@ func main() {
 	user := os.Getenv("USER")
 	dbname := os.Getenv("NAME")
 	password := os.Getenv("PASSWORD")
-	//Database connection string
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s port=%s", host, user, dbname, password, dbPort)
-	//Openning connection to database
+
 	db, err = gorm.Open(dialect, dbURI)
 	if err != nil {
 		log.Fatal(err)
@@ -51,9 +50,9 @@ func main() {
 	}
 	defer db.Close()
 
-	// Set the router as the default one shipped with Gin
 	gin.SetMode(gin.ReleaseMode)
 	// db.AutoMigrate(&models.Student{})
+	// db.Create(&student)
 
 	r := gin.Default()
 	url := ginSwagger.URL("http://localhost:4000/swagger/doc.json") // The url pointing to API definition
@@ -65,7 +64,6 @@ func main() {
 	r.DELETE("/student/:id", DeleteStudent)
 
 	log.Fatal(r.Run(":4000"))
-	//log.Fatal(router.Run(":4000"))
 
 }
 
@@ -127,6 +125,9 @@ func CreateStudent(c *gin.Context) {
 	c.BindJSON(&student)
 	db.Create(&student)
 	c.JSON(200, student)
+	models.PostStudent(student)
+	// w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	// w.WriteHeader(http.StatusCreated)
 }
 
 // UpdtadeStudent godoc
@@ -168,3 +169,14 @@ func DeleteStudent(c *gin.Context) {
 	fmt.Println(d)
 	c.JSON(200, gin.H{"id #" + id: "deleted"})
 }
+
+// var (
+// 	student = []models.Student{
+// 		{Name: "Sherzod", Surname: "Abdullajonov", Course: 4, Department: "Socie", Adress: "Fergana", Phone: 901666986, Email: "sabdullajonov77@gmail.com"},
+// 		{Name: "Shokhruhk", Surname: "Gafurov", Course: 4, Department: "Socie", Adress: "Fergana", Phone: 916771185, Email: "gafurov@gmail.com"},
+// 		{Name: "Khurshid", Surname: "Kabilov", Course: 4, Department: "Socie", Adress: "Fergana", Phone: 911146761, Email: "kobilov@gmail.com"},
+// 		{Name: "Jahongir", Surname: "Makhkamov", Course: 4, Department: "Socie", Adress: "Fergana", Phone: 906330463, Email: "jahongir@gmail.com"},
+// 		{Name: "Shahzod", Surname: "Burkhanov", Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 995558076, Email: "shahzod@gmail.com"},
+// 		{Name: "Jaloliddin", Surname: "Abdullayev", Course: 4, Department: "Socie", Adress: "Jizzakh", Phone: 994522399, Email: "jaloldin@gmail.com"},
+// 	}
+// )
